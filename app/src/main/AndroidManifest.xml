@@ -10,8 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChatRoomApp">
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:name=".ChatActivity"
+            android:label="@string/title_activity_chat"
+            android:theme="@style/Theme.ChatRoomApp.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
