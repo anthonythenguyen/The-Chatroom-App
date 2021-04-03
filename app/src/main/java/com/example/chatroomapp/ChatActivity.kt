@@ -1,5 +1,6 @@
 package com.example.chatroomapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
@@ -19,11 +20,17 @@ class ChatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chat)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        var arrChat = arrayListOf<String>()
+        var arrChat = arrayListOf<String>("stuff", "more", "other")
 
         var messageBox = findViewById(R.id.messageBox) as EditText
         var sendMessage = findViewById(R.id.fab) as FloatingActionButton
         var chatList = findViewById(R.id.chatList) as ListView
+        var back = findViewById<Button>(R.id.back)
+
+        back.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
         var listAdapter: ArrayAdapter<String> =
                 ArrayAdapter(this, android.R.layout.simple_list_item_1,arrChat)
@@ -43,26 +50,26 @@ class ChatActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 */
-        val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("message")
-
-
-        myRef.setValue("Hello, World")
-
-
-        myRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                val value = dataSnapshot.getValue(String::class.java)
-                message("Value: $value")
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                // Failed to read value
-                message("Failed to read value")
-            }
-        })
+//        val database = FirebaseDatabase.getInstance()
+//        val myRef = database.getReference("message")
+//
+//
+//        myRef.setValue("Hello, World")
+//
+//
+//        myRef.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                // This method is called once with the initial value and again
+//                // whenever data at this location is updated.
+//                val value = dataSnapshot.getValue(String::class.java)
+//                message("Value: $value")
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                // Failed to read value
+//                message("Failed to read value")
+//            }
+//        })
     }
 
     fun message(m: String){
