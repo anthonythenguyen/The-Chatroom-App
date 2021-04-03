@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "513301838653",
+    "project_id": "chatroomapp-b3933",
+    "storage_bucket": "chatroomapp-b3933.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513301838653:android:72b11493be7e4c22a52354",
+        "android_client_info": {
+          "package_name": "com.example.chatroomapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "513301838653-47sljtosgeqi0esnje8bec5rcvv3624g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7HgK6GCZyMUGlzzzR4x4VA-bsNbkoKcY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "513301838653-47sljtosgeqi0esnje8bec5rcvv3624g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
