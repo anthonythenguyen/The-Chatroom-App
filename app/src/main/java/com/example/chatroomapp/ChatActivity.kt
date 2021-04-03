@@ -2,7 +2,7 @@ package com.example.chatroomapp
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -19,11 +19,30 @@ class ChatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chat)
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        var arrChat = arrayListOf<String>()
+
+        var messageBox = findViewById(R.id.messageBox) as EditText
+        var sendMessage = findViewById(R.id.fab) as FloatingActionButton
+        var chatList = findViewById(R.id.chatList) as ListView
+
+        var listAdapter: ArrayAdapter<String> =
+                ArrayAdapter(this, android.R.layout.simple_list_item_1,arrChat)
+        chatList.adapter = listAdapter
+
+        sendMessage.setOnClickListener{
+            if(messageBox.text.toString().trim() != ""){
+                arrChat.add(messageBox.text.toString().trim())
+                messageBox.setText("")
+            }
+        }
+
+
+/*
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
-
+*/
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("message")
 
