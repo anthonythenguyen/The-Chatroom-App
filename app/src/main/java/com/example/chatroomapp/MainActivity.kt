@@ -2,6 +2,7 @@ package com.example.chatroomapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -19,21 +20,19 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         auth = FirebaseAuth.getInstance()
 //        Firebase.auth.signOut()
-
         if(auth.currentUser == null){
             val intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)
             finish()
-        }else{
-//            Toast.makeText(this, "Already logged in", Toast.LENGTH_LONG).show()
         }
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show()
 
-            val intent = Intent(this, ChatActivity::class.java)
+            val intent = Intent(this@MainActivity, ChatActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }

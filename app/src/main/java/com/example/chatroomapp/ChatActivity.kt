@@ -37,6 +37,7 @@ class ChatActivity : AppCompatActivity() {
         chatList.adapter = listAdapter
 
         sendMessage.setOnClickListener{
+            Toast.makeText(this, "Here", Toast.LENGTH_SHORT).show()
             if(messageBox.text.toString().trim() != ""){
                 arrChat.add(messageBox.text.toString().trim())
                 messageBox.setText("")
