@@ -16,7 +16,14 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.ChatRoomApp.PopupOverlay" />
+            app:popupTheme="@style/Theme.ChatRoomApp.PopupOverlay">
+
+            <Button
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back" />
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -26,7 +33,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@android:drawable/ic_dialog_email"
+         />
 
 <!--    <LinearLayout
         android:layout_width="match_parent"
@@ -79,15 +87,15 @@
         android:id="@+id/messageBox"
         android:layout_width="337dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|left"
+        android:layout_gravity="bottom"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Enter your message here" />
 
     <ListView
         android:id="@+id/chatList"
         android:layout_width="match_parent"
         android:layout_height="631dp"
-        android:layout_marginTop="55dp" />
+        android:layout_marginTop="55dp" >
+    </ListView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
