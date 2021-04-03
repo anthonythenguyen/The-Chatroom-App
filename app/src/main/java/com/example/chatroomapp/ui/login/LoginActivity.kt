@@ -1,6 +1,7 @@
 package com.example.chatroomapp.ui.login
 
 import android.app.Activity
+import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -14,18 +15,22 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import com.example.chatroomapp.MainActivity
 
 import com.example.chatroomapp.R
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_login)
 
+        auth = FirebaseAuth.getInstance()
         val username = findViewById<EditText>(R.id.username)
         val password = findViewById<EditText>(R.id.password)
         val login = findViewById<Button>(R.id.login)
@@ -93,6 +98,17 @@ class LoginActivity : AppCompatActivity() {
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
                 loginViewModel.login(username.text.toString(), password.text.toString())
+
+                auth.createUserWithEmailAndPassword(username.toString(), password.toString()).addOnCompleteListener(this@LoginActivity, OnCompleteListener{ task ->
+                    if(task.isSuccessful){
+                        Toast.makeText(this@LoginActivity, "Successfully Registered", Toast.LENGTH_LONG).show()
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }else {
+                        Toast.makeText(this@LoginActivity, "Registration Failed", Toast.LENGTH_LONG).show()
+                    }
+                })
             }
         }
     }

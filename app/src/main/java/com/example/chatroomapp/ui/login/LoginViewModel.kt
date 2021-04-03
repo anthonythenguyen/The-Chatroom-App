@@ -1,18 +1,23 @@
 package com.example.chatroomapp.ui.login
 
+import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
+import android.widget.Toast
+import com.example.chatroomapp.MainActivity
 import com.example.chatroomapp.data.LoginRepository
 import com.example.chatroomapp.data.Result
 
 import com.example.chatroomapp.R
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
+    private lateinit var auth: FirebaseAuth
 
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
