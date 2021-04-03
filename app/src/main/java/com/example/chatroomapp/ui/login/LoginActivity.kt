@@ -109,6 +109,17 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this@LoginActivity, "Registration Failed", Toast.LENGTH_LONG).show()
                     }
                 })
+
+                auth.signInWithEmailAndPassword(username.toString(), password.toString()).addOnCompleteListener(this@LoginActivity, OnCompleteListener { task ->
+                    if(task.isSuccessful) {
+                        Toast.makeText(this@LoginActivity, "Successfully Logged In", Toast.LENGTH_LONG).show()
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }else {
+                        Toast.makeText(this@LoginActivity, "Login Failed", Toast.LENGTH_LONG).show()
+                    }
+                })
             }
         }
     }
