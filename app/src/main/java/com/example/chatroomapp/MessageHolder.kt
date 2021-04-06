@@ -15,6 +15,7 @@ class MessageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var imgLikes: ImageView
 
     init {
+        // TODO add the proper IDs here
         mText = itemView.findViewById(R.id.back)
         mUsername = itemView.findViewById(R.id.button_first)
         mTime = itemView.findViewById(R.id.First2Fragment)

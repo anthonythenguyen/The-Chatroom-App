@@ -4,6 +4,7 @@ import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.google.firebase.database.Query
 import com.google.firebase.database.core.Context
 import com.google.firebase.storage.StorageReference
@@ -24,6 +25,7 @@ class MessageAdapter(context: Context, query: Query?, userID: String?) {
     }
 
     private fun getItem(position: Int): Message {
+        //this is junk data for now
         var mess = Message("", "", "")
         return mess
     }
@@ -47,10 +49,8 @@ class MessageAdapter(context: Context, query: Query?, userID: String?) {
         val mText = holder.mText
         val mUsername = holder.mUsername
         val mTime = holder.mTime
-        val mLikesCount = holder.mLikesCount
-//        val imgProfile: CircleImageView = holder.imgProfile
+        val imgProfile: ImageView = holder.imgProfile
         val imgDropdown = holder.imgDropdown
-        val imgLikes = holder.imgLikes
         mUsername.text = model.messageUser
         mText.text = model.messageText
         mTime.text = DateFormat.format("dd MMM  (h:mm a)", model.messageTime)
