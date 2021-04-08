@@ -16,12 +16,12 @@ class MessageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     init {
         // TODO add the proper IDs here
-        mText = itemView.findViewById(R.id.back)
-        mUsername = itemView.findViewById(R.id.button_first)
-        mTime = itemView.findViewById(R.id.First2Fragment)
-        mLikesCount = itemView.findViewById(R.id.login)
-        imgProfile = itemView.findViewById(R.id.SecondFragment)
-        imgLikes = itemView.findViewById(R.id.Second2Fragment)
+        mText = itemView.findViewById(R.id.dark)
+        mUsername = itemView.findViewById(R.id.login)
+        mTime = itemView.findViewById(R.id.chatList)
+        mLikesCount = itemView.findViewById(R.id.register)
+        imgProfile = itemView.findViewById(R.id.emailReg)
+        imgLikes = itemView.findViewById(R.id.email)
         imgDropdown = itemView.findViewById(R.id.username)
     }
 }

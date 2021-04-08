@@ -17,12 +17,6 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/Theme.ChatRoomApp.PopupOverlay">
-
-            <Button
-                android:id="@+id/back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Back" />
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -99,7 +93,6 @@
         android:id="@+id/chatList"
         android:layout_width="match_parent"
         android:layout_height="577dp"
-        android:layout_marginTop="55dp"
-        ></ListView>
+        android:layout_marginTop="55dp"></ListView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
