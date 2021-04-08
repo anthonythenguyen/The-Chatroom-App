@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         auth = FirebaseAuth.getInstance()
-        Firebase.auth.signOut()
+//        Firebase.auth.signOut()
 
         if(auth.currentUser == null){
             val intent = Intent(this, SignInActivity::class.java)
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show()
 
-            val intent = Intent(this@MainActivity, ChatActivity::class.java)
+            val intent = Intent(this@MainActivity, NewChatActivity::class.java)
             startActivity(intent)
         }
     }

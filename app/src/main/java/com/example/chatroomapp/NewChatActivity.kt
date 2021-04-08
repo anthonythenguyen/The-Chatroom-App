@@ -30,13 +30,11 @@ class NewChatActivity : AppCompatActivity() {
 
             ref.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    var list = ArrayList<String>()
                     var snap = dataSnapshot.children
                     for (i in snap) {
-                        val data: String? = i.getValue(String::class.java)
-                        if (data != null) {
-                            list.add(data)
-                            result.setText(data)
+                        val data: String? = i.key
+                        if (data != null && data == searchBar.text.toString()) {
+                            message(data)
                         }
                     }
                 }
