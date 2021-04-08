@@ -49,8 +49,8 @@ class RegisterActivity : AppCompatActivity() {
         }
         else {
             val username = findViewById<EditText>(R.id.username)
-            val user = User(username.text.toString(), email)
-            database.child(uid).setValue(user)
+            val user = User(uid, email)
+            database.child(username.text.toString()).setValue(user)
         }
     }
 }

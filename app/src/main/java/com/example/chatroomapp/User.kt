@@ -1,5 +1,5 @@
 package com.example.chatroomapp
 
-class User(val user: String, val e: String) {
+class User(val uid: String, val e: String) {
 
 }

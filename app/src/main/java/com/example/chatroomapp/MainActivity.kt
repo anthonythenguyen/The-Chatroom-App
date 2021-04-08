@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -20,12 +22,11 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         auth = FirebaseAuth.getInstance()
-//        Firebase.auth.signOut()
+        Firebase.auth.signOut()
 
         if(auth.currentUser == null){
             val intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)
-            finish()
         }
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
@@ -34,7 +35,6 @@ class MainActivity : AppCompatActivity() {
 
             val intent = Intent(this@MainActivity, ChatActivity::class.java)
             startActivity(intent)
-            finish()
         }
     }
 

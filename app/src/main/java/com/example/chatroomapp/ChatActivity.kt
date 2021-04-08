@@ -60,19 +60,7 @@ class ChatActivity : AppCompatActivity() {
 //        myRef.setValue("Hello, World")
 //
 //
-//        myRef.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                // This method is called once with the initial value and again
-//                // whenever data at this location is updated.
-//                val value = dataSnapshot.getValue(String::class.java)
-//                message("Value: $value")
-//            }
 //
-//            override fun onCancelled(error: DatabaseError) {
-//                // Failed to read value
-//                message("Failed to read value")
-//            }
-//        })
     }
 
     fun message(m: String){
