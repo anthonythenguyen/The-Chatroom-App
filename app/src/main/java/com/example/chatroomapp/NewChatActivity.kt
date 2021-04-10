@@ -1,5 +1,6 @@
 package com.example.chatroomapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -14,6 +15,9 @@ import com.google.firebase.database.ValueEventListener
 
 class NewChatActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
+    var database = FirebaseDatabase.getInstance().getReference("users")
+    var username = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_chat)
@@ -22,26 +26,59 @@ class NewChatActivity : AppCompatActivity() {
         var search = findViewById<Button>(R.id.search)
         var searchBar = findViewById<EditText>(R.id.searchBar)
         var result = findViewById<TextView>(R.id.result)
+        var chat = findViewById<Button>(R.id.addFriend)
+        chat.isEnabled = false
 
         search.setOnClickListener {
-            val db = FirebaseDatabase.getInstance()
-            val ref = db.getReference("users")
-            val userId = auth.currentUser?.uid
-
-            ref.addValueEventListener(object : ValueEventListener {
+            database.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     var snap = dataSnapshot.children
                     for (i in snap) {
                         val data: String? = i.key
                         if (data != null && data == searchBar.text.toString()) {
-                            message(data)
+                            result.setText(data)
+                            searchBar.setText("")
+                            chat.isEnabled = true
                         }
+                        else {
+                            for (j in i.children) {
+                                if (data != null && j.value == auth.currentUser?.uid) {
+                                    username = i.key.toString()
+                                }
+                            }
+                        }
+                    }
+                    if(result.text.toString() == ""){
+                        result.setText("User does not exist")
                     }
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {}
             })
 
+        }
+
+        chat.setOnClickListener {
+            var exists = false
+            var ref = database.child(username).child("conversations")
+            ref.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    var snap = dataSnapshot.children
+                    for (i in snap) {
+                        val data: String? = i.key
+                        if (data != null && data == result.text.toString()) {
+                            exists = true
+                            result.setText("Conversation with this user already exists")
+                            chat.isEnabled = false
+                        }
+                    }
+                    if(!exists){
+                        database.child(username).child("conversations").child(result.text.toString()).child("messageNum").setValue(0)
+                        startActivity(Intent(this@NewChatActivity, ChatActivity::class.java))
+                    }
+                }
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
         }
     }
 

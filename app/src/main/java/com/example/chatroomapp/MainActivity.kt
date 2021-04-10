@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -22,8 +23,11 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         auth = FirebaseAuth.getInstance()
-//        Firebase.auth.signOut()
+        var tempChat = findViewById<Button>(R.id.tempChat)
 
+        tempChat.setOnClickListener {
+            startActivity(Intent(this, ChatActivity::class.java))
+        }
         if(auth.currentUser == null){
             val intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)
