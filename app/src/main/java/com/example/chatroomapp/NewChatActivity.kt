@@ -40,11 +40,10 @@ class NewChatActivity : AppCompatActivity() {
                             searchBar.setText("")
                             chat.isEnabled = true
                         }
-                        else {
-                            for (j in i.children) {
-                                if (data != null && j.value == auth.currentUser?.uid) {
-                                    username = i.key.toString()
-                                }
+
+                        for (j in i.children) {
+                            if (data != null && j.value == auth.currentUser?.uid) {
+                                username = i.key.toString()
                             }
                         }
                     }
