@@ -64,7 +64,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     fun message(m: String){
-        Toast.makeText(this, "$m", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "$m kjk", Toast.LENGTH_SHORT).show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

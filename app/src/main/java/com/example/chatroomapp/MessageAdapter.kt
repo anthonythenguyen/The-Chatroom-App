@@ -55,4 +55,8 @@ class MessageAdapter(context: Context, query: Query?, userID: String?) {
         mText.text = model.messageText
         mTime.text = DateFormat.format("dd MMM  (h:mm a)", model.messageTime)
     }
+
+
+
+
 }
