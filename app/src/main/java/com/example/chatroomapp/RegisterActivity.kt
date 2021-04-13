@@ -25,7 +25,6 @@ class RegisterActivity : AppCompatActivity() {
         val email = findViewById<EditText>(R.id.emailReg)
         val password = findViewById<EditText>(R.id.passwordReg)
         val create = findViewById<Button>(R.id.createReg)
-        val loading = findViewById<ProgressBar>(R.id.loading)
 
         create.setOnClickListener {
             auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
@@ -49,8 +48,8 @@ class RegisterActivity : AppCompatActivity() {
         }
         else {
             val username = findViewById<EditText>(R.id.username)
-            val user = User(username.text.toString(), email)
-            database.child(uid).setValue(user)
+            val user = User(uid, email)
+            database.child(username.text.toString()).setValue(user)
         }
     }
 }
