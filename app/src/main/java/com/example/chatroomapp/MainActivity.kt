@@ -4,10 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.ListView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -16,6 +15,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        database.addValueEventListener(object : ValueEventListener {
+        database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var snap = dataSnapshot.children
                 for (i in snap) {
@@ -42,6 +42,38 @@ class MainActivity : AppCompatActivity() {
                     for (j in i.children) {
                         if (data != null && j.value == auth.currentUser?.uid) {
                             username = i.key.toString()
+
+                            var listOfCurrentConvos = arrayListOf<String>()
+                            var ref = database.child(username).child("conversations")
+
+                            ref.addValueEventListener(object : ValueEventListener {
+                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                    var snap = dataSnapshot.children
+                                    for (i in snap) {
+                                        val data: String? = i.key
+                                        listOfCurrentConvos.add(data.toString())
+                                    }
+
+                                    var myList = findViewById(R.id.myListView) as ListView
+                                    var listAdapter: ArrayAdapter<String> =
+                                        ArrayAdapter(
+                                            this@MainActivity,
+                                            android.R.layout.simple_list_item_1,
+                                            listOfCurrentConvos
+                                        )
+                                    myList.adapter = listAdapter
+
+                                    myList.setOnItemClickListener(OnItemClickListener { parent, view, position, id ->
+                                        val selectedItem =
+                                            parent.getItemAtPosition(position) as String
+                                        var intent = Intent(this@MainActivity, ChatActivity::class.java)
+                                        intent.putExtra("user", selectedItem)
+                                        startActivity(intent)
+                                    })
+                                }
+
+                                override fun onCancelled(databaseError: DatabaseError) {}
+                            })
                         }
                     }
                 }
@@ -49,29 +81,6 @@ class MainActivity : AppCompatActivity() {
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
-
-        var listOfCurrentConvos = arrayListOf<String>()
-        var ref = database.child(username).child("conversations")
-
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var snap = dataSnapshot.children
-
-                for (i in snap) {
-                    val data: String? = i.key
-                    listOfCurrentConvos.add(data.toString())
-                }
-
-                var myList = findViewById(R.id.myListView) as ListView
-                var listAdapter: ArrayAdapter<String> =
-                    ArrayAdapter(this@MainActivity, android.R.layout.simple_list_item_1, listOfCurrentConvos)
-                myList.adapter = listAdapter
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-
-
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)

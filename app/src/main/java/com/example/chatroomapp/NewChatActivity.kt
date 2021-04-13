@@ -73,7 +73,11 @@ class NewChatActivity : AppCompatActivity() {
                     }
                     if(!exists){
                         database.child(username).child("conversations").child(result.text.toString()).child("messageNum").setValue(0)
-                        startActivity(Intent(this@NewChatActivity, ChatActivity::class.java))
+                        database.child(result.text.toString()).child("conversations").child(username).child("messageNum").setValue(0)
+                        var intent = Intent(this@NewChatActivity, ChatActivity::class.java)
+                        intent.putExtra("user", username)
+                        intent.putExtra("other", result.text.toString())
+                        startActivity(intent)
                     }
                 }
                 override fun onCancelled(databaseError: DatabaseError) {}

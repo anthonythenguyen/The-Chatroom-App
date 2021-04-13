@@ -26,7 +26,6 @@ class SignInActivity : AppCompatActivity() {
         val password = findViewById<EditText>(R.id.password)
         val create = findViewById<Button>(R.id.register)
         val login = findViewById<Button>(R.id.login)
-        val loading = findViewById<ProgressBar>(R.id.loading)
 
         create.setOnClickListener {
             val intent = Intent(this@SignInActivity, RegisterActivity::class.java)
