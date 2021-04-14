@@ -89,10 +89,16 @@
         android:hint="Enter your message here"
         android:text=""/>
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatList"
         android:layout_width="match_parent"
-        android:layout_height="577dp"
-        android:layout_marginTop="55dp"></ListView>
-
+        android:layout_height="632dp"
+        android:layout_marginTop="55dp" />
+    <!--
+        <ListView
+            android:id="@+id/chatList"
+            android:layout_width="match_parent"
+            android:layout_height="577dp"
+            android:layout_marginTop="55dp"></ListView>
+    -->
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
