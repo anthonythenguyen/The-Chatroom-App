@@ -59,7 +59,7 @@ class ChatActivity : AppCompatActivity(){
                         var messageNum = 0
                         for(j in i.children){
                             Toast.makeText(this@ChatActivity, "Database second for loop", Toast.LENGTH_SHORT).show()
-                            if(j.key != "messageNum"){
+                            if(j.key != null && j.key != "messageNum"){
                                 var m = Message(j.child("username").value.toString(), j.child("message").value.toString(), j.child("time").value.toString())
                                 arrChat.add(m)
                             }
