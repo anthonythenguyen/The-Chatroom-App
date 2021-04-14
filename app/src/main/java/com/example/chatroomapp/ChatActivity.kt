@@ -47,39 +47,39 @@ class ChatActivity : AppCompatActivity(){
         }
 
         var arrChat = arrayListOf<Message>()
-        user = intent.getStringExtra("user")
-        otherUser = intent.getStringExtra("other")
+        user = intent.getStringExtra("user")!!
+        otherUser = intent.getStringExtra("other")!!
 
-        print("before database")
-        database.child(user).child("conversations").addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                print("begin")
-                var snap = dataSnapshot.children
-                for (i in snap) {
-                    val data: String? = i.key
-                    print("1st")
-                    if (data != null && data == otherUser) {
-                        var messageNum = 0
-                        for(j in i.children){
-                            print("2nd")
-                            if(j.key != null && j.key != "messageNum"){
-                                var m = Message(j.child("username").value.toString(), j.child("message").value.toString(), j.child("time").value.toString())
-                                arrChat.add(m)
-                            }
-                            else {
-//                                messageNum = j.value as Int
-                            }
-                        }
-                    }
-                }
-
-                var chatList = findViewById(R.id.chatList) as ListView
-                var listAdapter = MyAdapter(arrChat, this@ChatActivity)
-                chatList.adapter = listAdapter
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
+        var db = database.child(user)
+//        database.child(user).child("conversations").addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                print("begin")
+//                var snap = dataSnapshot.children
+//                for (i in snap) {
+//                    val data: String? = i.key
+//                    print("1st")
+//                    if (data != null && data == otherUser) {
+//                        var messageNum = 0
+//                        for(j in i.children){
+//                            print("2nd")
+//                            if(j.key != null && j.key != "messageNum"){
+//                                var m = Message(j.child("username").value.toString(), j.child("message").value.toString(), j.child("time").value.toString())
+//                                arrChat.add(m)
+//                            }
+//                            else {
+////                                messageNum = j.value as Int
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                var chatList = findViewById(R.id.chatList) as ListView
+//                var listAdapter = MyAdapter(arrChat, this@ChatActivity)
+//                chatList.adapter = listAdapter
+//            }
+//
+//            override fun onCancelled(databaseError: DatabaseError) {}
+//        })
 
         //Was <String>, changed to ListView
 
