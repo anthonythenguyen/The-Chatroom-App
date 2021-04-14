@@ -142,8 +142,8 @@ class ChatActivity : AppCompatActivity(){
             return position
         }
 
-        override fun getItemId(position: Int): Long {
-            return position.toLong()
+        override fun getItemId(position: Int): Int {
+            return position
         }
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
