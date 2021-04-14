@@ -32,6 +32,10 @@ class ChatActivity : AppCompatActivity(){
         setContentView(R.layout.activity_chat)
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        var userMessageBox = findViewById(R.id.chatList) as ListView
+        var messageBox = findViewById(R.id.messageBox) as EditText
+        var sendMessage = findViewById(R.id.fab) as FloatingActionButton
+
         val actionBar: ActionBar? = supportActionBar
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true)
@@ -44,33 +48,32 @@ class ChatActivity : AppCompatActivity(){
         user = intent.getStringExtra("user")!!
         otherUser = intent.getStringExtra("other")!!
 
-        database.child(user).child("conversations").addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var snap = dataSnapshot.children
-                for (i in snap) {
-                    val data: String? = i.key
-                    if (data != null && data == otherUser) {
-                        for(j in i.children){
-                            if(j.key != "messageNum"){
-                                var m = Message(j.child("username").value.toString(), j.child("message").value.toString(), j.child("time").value.toString())
-                                arrChat.add(m)
-                            }
-                        }
-                    }
-                }
-
-                var chatList = findViewById(R.id.chatList) as ListView
-                var listAdapter = MyAdapter(arrChat, this@ChatActivity)
-                chatList.adapter = listAdapter
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-
-        var userMessageBox = findViewById(R.id.chatList) as ListView
-        var messageBox = findViewById(R.id.messageBox) as EditText
-        var sendMessage = findViewById(R.id.fab) as FloatingActionButton
-        var chatList = findViewById(R.id.chatList) as ListView
+//        database.child(user).child("conversations").addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                var snap = dataSnapshot.children
+//                for (i in snap) {
+//                    val data: String? = i.key
+//                    if (data != null && data == otherUser) {
+//                        var messageNum = 0
+//                        for(j in i.children){
+//                            if(j.key != "messageNum"){
+//                                var m = Message(j.child("username").value.toString(), j.child("message").value.toString(), j.child("time").value.toString())
+//                                arrChat.add(m)
+//                            }
+//                            else {
+//                                messageNum = j.value as Int
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                var chatList = findViewById(R.id.chatList) as ListView
+//                var listAdapter = MyAdapter(arrChat, this@ChatActivity)
+//                chatList.adapter = listAdapter
+//            }
+//
+//            override fun onCancelled(databaseError: DatabaseError) {}
+//        })
 
         //Was <String>, changed to ListView
 
@@ -79,25 +82,10 @@ class ChatActivity : AppCompatActivity(){
 
         }
 
-
-/*
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
-*/
-//        val database = FirebaseDatabase.getInstance()
-//        val myRef = database.getReference("message")
-//
-//
-//        myRef.setValue("Hello, World")
-//
-//
-//
     }
 
     fun message(m: String){
-        Toast.makeText(this, "$m kjk", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "$m", Toast.LENGTH_SHORT).show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
