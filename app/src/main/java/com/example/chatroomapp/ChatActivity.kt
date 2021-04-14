@@ -54,9 +54,11 @@ class ChatActivity : AppCompatActivity(){
                 var snap = dataSnapshot.children
                 for (i in snap) {
                     val data: String? = i.key
+                    Toast.makeText(this@ChatActivity, "Database first for loop", Toast.LENGTH_SHORT).show()
                     if (data != null && data == otherUser) {
                         var messageNum = 0
                         for(j in i.children){
+                            Toast.makeText(this@ChatActivity, "Database second for loop", Toast.LENGTH_SHORT).show()
                             if(j.key != "messageNum"){
                                 var m = Message(j.child("username").value.toString(), j.child("message").value.toString(), j.child("time").value.toString())
                                 arrChat.add(m)
