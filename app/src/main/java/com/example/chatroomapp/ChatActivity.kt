@@ -46,21 +46,21 @@ class ChatActivity : AppCompatActivity(){
         }
 
         var arrChat = arrayListOf<Message>()
-//        user = intent.getStringExtra("user")
-//        otherUser = intent.getStringExtra("other")
-        Toast.makeText(this, user, Toast.LENGTH_SHORT).show()
-        Toast.makeText(this, otherUser, Toast.LENGTH_SHORT).show()
+        user = intent.getStringExtra("user")
+        otherUser = intent.getStringExtra("other")
 
+        print("before database")
         database.child(user).child("conversations").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                print("begin")
                 var snap = dataSnapshot.children
                 for (i in snap) {
                     val data: String? = i.key
-                    Toast.makeText(this@ChatActivity, "Database first for loop", Toast.LENGTH_SHORT).show()
+                    print("1st")
                     if (data != null && data == otherUser) {
                         var messageNum = 0
                         for(j in i.children){
-                            Toast.makeText(this@ChatActivity, "Database second for loop", Toast.LENGTH_SHORT).show()
+                            print("2nd")
                             if(j.key != null && j.key != "messageNum"){
                                 var m = Message(j.child("username").value.toString(), j.child("message").value.toString(), j.child("time").value.toString())
                                 arrChat.add(m)
