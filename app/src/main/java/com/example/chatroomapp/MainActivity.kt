@@ -66,7 +66,6 @@ class MainActivity : AppCompatActivity() {
 
                                     myList.setOnItemClickListener(OnItemClickListener { parent, view, position, id ->
                                         val selectedItem = parent.getItemAtPosition(position) as String
-                                        Toast.makeText(this@MainActivity, selectedItem, Toast.LENGTH_SHORT).show()
                                         var intent = Intent(this@MainActivity, ChatActivity::class.java)
                                         intent.putExtra("other", selectedItem)
                                         intent.putExtra("user", username)

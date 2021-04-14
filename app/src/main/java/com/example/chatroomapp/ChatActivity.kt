@@ -46,8 +46,10 @@ class ChatActivity : AppCompatActivity(){
         }
 
         var arrChat = arrayListOf<Message>()
-//        user = intent.getStringExtra("user")!!
-//        otherUser = intent.getStringExtra("other")!!
+        user = intent.getStringExtra("user")!!
+        otherUser = intent.getStringExtra("other")!!
+        Toast.makeText(this, user, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, otherUser, Toast.LENGTH_SHORT).show()
 
         database.child(user).child("conversations").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
