@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -32,8 +33,8 @@ class ChatActivity : AppCompatActivity(){
         setContentView(R.layout.activity_chat)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-//        var userMessageBox = findViewById(R.id.chatList) as ListView
-//        var messageBox = findViewById(R.id.messageBox) as EditText
+//        var userMessageBox = findViewById(R.id.chatList) as RecyclerView
+        var messageBox = findViewById(R.id.messageBox) as EditText
         var sendMessage = findViewById(R.id.fab) as FloatingActionButton
 
         val actionBar: ActionBar? = supportActionBar
