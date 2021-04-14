@@ -62,7 +62,7 @@ class ChatActivity : AppCompatActivity(){
                                 arrChat.add(m)
                             }
                             else {
-                                messageNum = j.value as Int
+//                                messageNum = j.value as Int
                             }
                         }
                     }
@@ -142,8 +142,8 @@ class ChatActivity : AppCompatActivity(){
             return position
         }
 
-        override fun getItemId(position: Int): Int {
-            return position
+        override fun getItemId(position: Int): Long {
+            return position.toLong()
         }
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
