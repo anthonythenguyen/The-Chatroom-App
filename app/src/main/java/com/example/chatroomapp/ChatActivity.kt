@@ -13,20 +13,25 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.util.*
 
 
 class ChatActivity : AppCompatActivity(){
     lateinit var auth: FirebaseAuth
-    lateinit var user: FirebaseUser
+    var database = FirebaseDatabase.getInstance().getReference("users")
+    var user = ""
+    var otherUser = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         auth = FirebaseAuth.getInstance()
-//        var db = FirebaseFirestore.getInstance()
-//        var query: Query
-//        private var recyclerAdapter: FirestoreRecyclerAdapter<Message, MessageAdapter, MessageHolder>
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
         setSupportActionBar(findViewById(R.id.toolbar))
+
         val actionBar: ActionBar? = supportActionBar
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true)
@@ -35,33 +40,44 @@ class ChatActivity : AppCompatActivity(){
             Toast.makeText(this, "Here", Toast.LENGTH_SHORT).show()
         }
 
-        var arrChat = arrayListOf<String>("stuff", "more", "other")
-        //var arrChat = arrayListOf<ListView>()
-        //var userMessageBox = findViewById(R.id.chatList) as ListView
-        //arrChat.add(userMessageBox)
+        var arrChat = arrayListOf<Message>()
+        user = intent.getStringExtra("user")!!
+        otherUser = intent.getStringExtra("other")!!
+
+        database.child(user).child("conversations").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var snap = dataSnapshot.children
+                for (i in snap) {
+                    val data: String? = i.key
+                    if (data != null && data == otherUser) {
+                        for(j in i.children){
+                            if(j.key != "messageNum"){
+                                var m = Message(j.child("username").value.toString(), j.child("message").value.toString(), j.child("time").value.toString())
+                                arrChat.add(m)
+                            }
+                        }
+                    }
+                }
+
+                var chatList = findViewById(R.id.chatList) as ListView
+                var listAdapter = MyAdapter(arrChat, this@ChatActivity)
+                chatList.adapter = listAdapter
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+
+        var userMessageBox = findViewById(R.id.chatList) as ListView
         var messageBox = findViewById(R.id.messageBox) as EditText
         var sendMessage = findViewById(R.id.fab) as FloatingActionButton
-        //var chatList = findViewById(R.id.chatList) as ListView
-
-//        var back = findViewById<Button>(R.id.back)
-
-//        back.setOnClickListener {
-//            val intent = Intent(this, MainActivity::class.java)
-//            startActivity(intent)
-//        }
+        var chatList = findViewById(R.id.chatList) as ListView
 
         //Was <String>, changed to ListView
-/*        var listAdapter: ArrayAdapter<String> =
-                ArrayAdapter(this, android.R.layout.simple_list_item_1, arrChat)
-        chatList.adapter = listAdapter
 
         sendMessage.setOnClickListener{
             Toast.makeText(this, "Here", Toast.LENGTH_SHORT).show()
-            if(messageBox.text.toString().trim() != ""){
-                arrChat.add(messageBox.text.toString().trim())
-                messageBox.setText("")
-            }
-        }*/
+
+        }
 
 
 /*
@@ -98,14 +114,8 @@ class ChatActivity : AppCompatActivity(){
     class Message(
         private var messageUser: String,
         private var messageText: String,
-        private var messageUserId: String
+        private var messageTime: String
     ) {
-        private var messageTime: Long
-
-        init {
-            messageTime = Date().getTime()
-            this.messageUserId = messageUserId
-        }
 
         //member functions
         fun getMessageUser():String{
@@ -124,32 +134,17 @@ class ChatActivity : AppCompatActivity(){
             this.messageText = messageText!!
         }
 
-        fun getMessageUserId(): String? {
-            return messageUserId
-        }
-
-        fun setMessageUserId(messageUserId: String?) {
-            this.messageUserId = messageUserId!!
-        }
-
-        fun getMessageTime(): Long {
+        fun getMessageTime(): String {
             return messageTime
         }
 
-        fun setMessageTime(messageTime: Long) {
+        fun setMessageTime(messageTime: String) {
             this.messageTime = messageTime
         }
 
     }
 
-    class MessageAdapter(context: Context?, textViewResourceId: Int) : ArrayAdapter<Message>(
-        context!!,
-        textViewResourceId
-    ){
-
-    }
-
-    class MyAdapter(var data: Array<Message>, var context: Context): BaseAdapter() {
+    class MyAdapter(var data: ArrayList<Message>, var context: Context): BaseAdapter() {
         override fun getCount(): Int {
             return data.size
         }
@@ -162,17 +157,15 @@ class ChatActivity : AppCompatActivity(){
             return position.toLong()
         }
 
-        override fun getView(position: Int, convertView: View, parent: ViewGroup?): View {
-//            if( convertView == null ){
-//                var inflater = context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-//                convertView =  inflater.inflate(R.layout.activity_chat, null)
-//            }
-            val myTextView1 = convertView.findViewById(R.id.user) as TextView
-            myTextView1.setText(getItem(position * 3).toString())
-            val myTextView2 = convertView.findViewById(R.id.mess) as TextView
-            myTextView2.setText(getItem(position * 3 + 1).toString())
-            val myTextView3 = convertView.findViewById(R.id.date) as TextView
-            myTextView3.setText(getItem(position * 3 + 2).toString())
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
+            if( convertView != null ){
+                val myTextView1 = convertView.findViewById(R.id.user) as TextView
+                myTextView1.setText(getItem(position * 3).toString())
+                val myTextView2 = convertView.findViewById(R.id.mess) as TextView
+                myTextView2.setText(getItem(position * 3 + 1).toString())
+                val myTextView3 = convertView.findViewById(R.id.date) as TextView
+                myTextView3.setText(getItem(position * 3 + 2).toString())
+            }
 
             return convertView
         }
