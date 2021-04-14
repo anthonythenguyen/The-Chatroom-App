@@ -24,8 +24,8 @@ import java.util.*
 class ChatActivity : AppCompatActivity(){
     lateinit var auth: FirebaseAuth
     var database = FirebaseDatabase.getInstance().getReference("users")
-    var user = ""
-    var otherUser = ""
+    var user = "thisiszoe"
+    var otherUser = "ajallen10"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         auth = FirebaseAuth.getInstance()
@@ -46,8 +46,8 @@ class ChatActivity : AppCompatActivity(){
         }
 
         var arrChat = arrayListOf<Message>()
-        user = intent.getStringExtra("user")!!
-        otherUser = intent.getStringExtra("other")!!
+//        user = intent.getStringExtra("user")
+//        otherUser = intent.getStringExtra("other")
         Toast.makeText(this, user, Toast.LENGTH_SHORT).show()
         Toast.makeText(this, otherUser, Toast.LENGTH_SHORT).show()
 
