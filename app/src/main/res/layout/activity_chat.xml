@@ -30,23 +30,20 @@
         app:srcCompat="@android:drawable/ic_dialog_email"
          />
 
-<!--    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_dashboard_black_24dp" />
+<!--        <ImageView-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:src="@drawable/ic_dashboard_black_24dp" />-->
 
         <LinearLayout
+            android:id="@+id/linear"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/design_default_color_primary_dark"
@@ -55,6 +52,7 @@
                 android:text="Username" />
 
             <TextView
+                android:id="@+id/mess"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
@@ -62,6 +60,7 @@
                 android:text="Message" />
 
             <TextView
+                android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Date and time" />
@@ -69,13 +68,12 @@
             <include layout="@layout/content_chat" />
 
 
-            &lt;!&ndash;            <View&ndash;&gt;
-&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;
-&lt;!&ndash;                android:layout_height="1dp"&ndash;&gt;
-&lt;!&ndash;                android:background="@color/black" />&ndash;&gt;
+<!--                        <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:background="@color/black" />-->
 
         </LinearLayout>
-    </LinearLayout>-->
 
     <EditText
         android:id="@+id/messageBox"

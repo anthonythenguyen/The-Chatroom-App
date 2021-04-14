@@ -1,21 +1,19 @@
 package com.example.chatroomapp
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.ListView
-import android.widget.Toast
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import java.util.*
-import kotlin.collections.HashMap
 
 
 class ChatActivity : AppCompatActivity(){
@@ -23,9 +21,9 @@ class ChatActivity : AppCompatActivity(){
     lateinit var user: FirebaseUser
     override fun onCreate(savedInstanceState: Bundle?) {
         auth = FirebaseAuth.getInstance()
-        var db = FirebaseFirestore.getInstance()
-        var query: Query
-        private var recyclerAdapter: FirestoreRecyclerAdapter<Message, MessageAdapter, MessageHolder>
+//        var db = FirebaseFirestore.getInstance()
+//        var query: Query
+//        private var recyclerAdapter: FirestoreRecyclerAdapter<Message, MessageAdapter, MessageHolder>
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
         setSupportActionBar(findViewById(R.id.toolbar))
@@ -97,14 +95,16 @@ class ChatActivity : AppCompatActivity(){
         return super.onOptionsItemSelected(item)
     }
 
-    class Message(private var messageUser: String, private var messageText: String, private var messageUserId: String, private var messageLikesCount: Long, private var messageLikes: Map<String, Boolean>) {
+    class Message(
+        private var messageUser: String,
+        private var messageText: String,
+        private var messageUserId: String
+    ) {
         private var messageTime: Long
 
         init {
             messageTime = Date().getTime()
             this.messageUserId = messageUserId
-            this.messageLikesCount = messageLikesCount
-            this.messageLikes = messageLikes
         }
 
         //member functions
@@ -140,20 +140,41 @@ class ChatActivity : AppCompatActivity(){
             this.messageTime = messageTime
         }
 
-        fun getMessageLikesCount(): Long {
-            return messageLikesCount
+    }
+
+    class MessageAdapter(context: Context?, textViewResourceId: Int) : ArrayAdapter<Message>(
+        context!!,
+        textViewResourceId
+    ){
+
+    }
+
+    class MyAdapter(var data: Array<Message>, var context: Context): BaseAdapter() {
+        override fun getCount(): Int {
+            return data.size
         }
 
-        fun setMessageLikesCount(messageLikesCount: Long) {
-            this.messageLikesCount = messageLikesCount
+        override fun getItem(position: Int): Any {
+            return position
         }
 
-        fun getMessageLikes(): Map<String, Boolean>? {
-            return messageLikes
+        override fun getItemId(position: Int): Long {
+            return position.toLong()
         }
 
-        fun setMessageLikes(messageLikes: Map<String, Boolean>) {
-            this.messageLikes = messageLikes
+        override fun getView(position: Int, convertView: View, parent: ViewGroup?): View {
+//            if( convertView == null ){
+//                var inflater = context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+//                convertView =  inflater.inflate(R.layout.activity_chat, null)
+//            }
+            val myTextView1 = convertView.findViewById(R.id.user) as TextView
+            myTextView1.setText(getItem(position * 3).toString())
+            val myTextView2 = convertView.findViewById(R.id.mess) as TextView
+            myTextView2.setText(getItem(position * 3 + 1).toString())
+            val myTextView3 = convertView.findViewById(R.id.date) as TextView
+            myTextView3.setText(getItem(position * 3 + 2).toString())
+
+            return convertView
         }
     }
 
