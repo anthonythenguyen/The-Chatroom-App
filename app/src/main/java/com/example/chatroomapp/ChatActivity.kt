@@ -32,8 +32,8 @@ class ChatActivity : AppCompatActivity(){
         setContentView(R.layout.activity_chat)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        var userMessageBox = findViewById(R.id.chatList) as ListView
-        var messageBox = findViewById(R.id.messageBox) as EditText
+//        var userMessageBox = findViewById(R.id.chatList) as ListView
+//        var messageBox = findViewById(R.id.messageBox) as EditText
         var sendMessage = findViewById(R.id.fab) as FloatingActionButton
 
         val actionBar: ActionBar? = supportActionBar
@@ -45,8 +45,8 @@ class ChatActivity : AppCompatActivity(){
         }
 
         var arrChat = arrayListOf<Message>()
-//        user = intent.getStringExtra("user")!!
-//        otherUser = intent.getStringExtra("other")!!
+        user = intent.getStringExtra("user")!!
+        otherUser = intent.getStringExtra("other")!!
 
         database.child(user).child("conversations").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
