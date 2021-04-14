@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -64,6 +65,7 @@ class MainActivity : AppCompatActivity() {
                                     myList.adapter = listAdapter
 
                                     myList.setOnItemClickListener(OnItemClickListener { parent, view, position, id ->
+                                        Toast.makeText(this@MainActivity, username, Toast.LENGTH_SHORT).show()
                                         val selectedItem = parent.getItemAtPosition(position) as String
                                         var intent = Intent(this@MainActivity, ChatActivity::class.java)
                                         intent.putExtra("other", selectedItem)
