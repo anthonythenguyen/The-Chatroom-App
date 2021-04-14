@@ -46,34 +46,34 @@ class ChatActivity : AppCompatActivity(){
 
         var arrChat = arrayListOf<Message>()
         user = intent.getStringExtra("user")!!
-        otherUser = intent.getStringExtra("other")!!
+//        otherUser = intent.getStringExtra("other")!!
 
-//        database.child(user).child("conversations").addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                var snap = dataSnapshot.children
-//                for (i in snap) {
-//                    val data: String? = i.key
-//                    if (data != null && data == otherUser) {
-//                        var messageNum = 0
-//                        for(j in i.children){
-//                            if(j.key != "messageNum"){
-//                                var m = Message(j.child("username").value.toString(), j.child("message").value.toString(), j.child("time").value.toString())
-//                                arrChat.add(m)
-//                            }
-//                            else {
-//                                messageNum = j.value as Int
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                var chatList = findViewById(R.id.chatList) as ListView
-//                var listAdapter = MyAdapter(arrChat, this@ChatActivity)
-//                chatList.adapter = listAdapter
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {}
-//        })
+        database.child(user).child("conversations").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var snap = dataSnapshot.children
+                for (i in snap) {
+                    val data: String? = i.key
+                    if (data != null && data == otherUser) {
+                        var messageNum = 0
+                        for(j in i.children){
+                            if(j.key != "messageNum"){
+                                var m = Message(j.child("username").value.toString(), j.child("message").value.toString(), j.child("time").value.toString())
+                                arrChat.add(m)
+                            }
+                            else {
+                                messageNum = j.value as Int
+                            }
+                        }
+                    }
+                }
+
+                var chatList = findViewById(R.id.chatList) as ListView
+                var listAdapter = MyAdapter(arrChat, this@ChatActivity)
+                chatList.adapter = listAdapter
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
 
         //Was <String>, changed to ListView
 

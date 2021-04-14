@@ -64,8 +64,7 @@ class MainActivity : AppCompatActivity() {
                                     myList.adapter = listAdapter
 
                                     myList.setOnItemClickListener(OnItemClickListener { parent, view, position, id ->
-                                        val selectedItem =
-                                            parent.getItemAtPosition(position) as String
+                                        val selectedItem = parent.getItemAtPosition(position) as String
                                         var intent = Intent(this@MainActivity, ChatActivity::class.java)
                                         intent.putExtra("user", selectedItem)
                                         startActivity(intent)
