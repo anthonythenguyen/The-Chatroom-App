@@ -42,8 +42,7 @@ class ChatActivity : AppCompatActivity(){
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
             val currentDate = sdf.format(Date())
 
-            FirebaseDatabase.getInstance()
-                .reference
+            FirebaseDatabase.getInstance().getReference("users").child(user).child("conversations").child(otherUser)
                 .push()
                 .setValue(
                     Message(
