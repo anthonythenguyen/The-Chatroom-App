@@ -72,8 +72,8 @@ class NewChatActivity : AppCompatActivity() {
                         }
                     }
                     if(!exists){
-                        database.child(username).child("conversations").child(result.text.toString()).child("messageNum").setValue(0)
-                        database.child(result.text.toString()).child("conversations").child(username).child("messageNum").setValue(0)
+//                        database.child(username).child("conversations").child(result.text.toString()).child("messageNum").setValue(0)
+//                        database.child(result.text.toString()).child("conversations").child(username).child("messageNum").setValue(0)
                         var intent = Intent(this@NewChatActivity, ChatActivity::class.java)
                         intent.putExtra("user", username)
                         intent.putExtra("other", result.text.toString())

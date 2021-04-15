@@ -32,33 +32,38 @@ class ChatActivity : AppCompatActivity(){
             actionBar.setDisplayHomeAsUpEnabled(true)
         }
         else {
-            Toast.makeText(this, "Here", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "Here", Toast.LENGTH_SHORT).show()
         }
 
         var sendMessage = findViewById<Button>(R.id.fab)
         sendMessage.setOnClickListener{
             Toast.makeText(this, "Here", Toast.LENGTH_SHORT).show()
             val input = findViewById<View>(R.id.messageBox) as EditText
-            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
             val currentDate = sdf.format(Date())
+            var m = Message(
+                user,
+                input.text.toString(),
+                currentDate
+            )
 
             FirebaseDatabase.getInstance().getReference("users").child(user).child("conversations").child(otherUser)
                 .push()
                 .setValue(
-                    Message(
-                        user,
-                        input.text.toString(),
-                        currentDate
-                    )
+                    m
+                )
+
+            FirebaseDatabase.getInstance().getReference("users").child(otherUser).child("conversations").child(user)
+                .push()
+                .setValue(
+                    m
                 )
 
             input.setText("")
         }
 
-        var arrChat = arrayListOf<Message>()
         user = intent.getStringExtra("user")!!
         otherUser = intent.getStringExtra("other")!!
-
         var chatList = findViewById(R.id.chatList) as ListView
 
         var query: Query = FirebaseDatabase.getInstance()
@@ -85,6 +90,11 @@ class ChatActivity : AppCompatActivity(){
         }
 
         chatList.adapter = adapter
+        adapter.startListening()
+    }
+
+    fun display(){
+
     }
 
     fun message(m: String){
@@ -107,6 +117,8 @@ class ChatActivity : AppCompatActivity(){
         private var messageText: String,
         private var messageTime: String
     ) {
+
+        constructor() : this("", "", "")
 
         //member functions
         fun getMessageUser():String{
