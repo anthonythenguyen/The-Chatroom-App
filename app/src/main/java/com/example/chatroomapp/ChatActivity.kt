@@ -1,24 +1,18 @@
 package com.example.chatroomapp
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.text.format.DateFormat
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseListAdapter
+import com.firebase.ui.database.FirebaseListOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import java.util.*
 
 
@@ -50,38 +44,64 @@ class ChatActivity : AppCompatActivity(){
         user = intent.getStringExtra("user")!!
         otherUser = intent.getStringExtra("other")!!
 
-        var db = database.child(user)
-//        database.child(user).child("conversations").addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                print("begin")
-//                var snap = dataSnapshot.children
-//                for (i in snap) {
-//                    val data: String? = i.key
-//                    print("1st")
-//                    if (data != null && data == otherUser) {
-//                        var messageNum = 0
-//                        for(j in i.children){
-//                            print("2nd")
-//                            if(j.key != null && j.key != "messageNum"){
-//                                var m = Message(j.child("username").value.toString(), j.child("message").value.toString(), j.child("time").value.toString())
-//                                arrChat.add(m)
-//                            }
-//                            else {
-////                                messageNum = j.value as Int
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                var chatList = findViewById(R.id.chatList) as ListView
-//                var listAdapter = MyAdapter(arrChat, this@ChatActivity)
-//                chatList.adapter = listAdapter
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {}
-//        })
+        database.child(user).child("conversations").addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var snap = dataSnapshot.children
+                for (i in snap) {
+                    val data: String? = i.key
+                    print("1st")
+                    if (data != null && data == otherUser) {
+                        var messageNum = 0
+                        for (j in i.children) {
+                            print("2nd")
+                            if (j.key != null && j.key != "messageNum") {
+                                var m = Message(
+                                    j.child("username").value.toString(),
+                                    j.child("message").value.toString(),
+                                    j.child("time").value.toString()
+                                )
+                                arrChat.add(m)
+                            } else {
+//                                messageNum = j.value as Int
+                            }
+                        }
+                    }
+                }
 
-        //Was <String>, changed to ListView
+                var chatList = findViewById(R.id.chatList) as ListView
+
+                var query: Query = FirebaseDatabase.getInstance()
+                    .getReference("users/$user/conversations/$otherUser")
+                    .orderByKey()
+
+                var options = FirebaseListOptions.Builder<Message>()
+                    .setLayout(R.layout.activity_chat) //Note: The guide doesn't mention this method, without it an exception is thrown that the layout has to be set.
+                    .setQuery(query, Message::class.java)
+                    .build()
+
+                var adapter: FirebaseListAdapter<*> = object : FirebaseListAdapter<Message>(options) {
+                    override fun populateView(v: View, model: Message, position: Int) {
+                        // Get references to the views of message.xml
+                        val messageText = v.findViewById<View>(R.id.user) as TextView
+                        val messageUser = v.findViewById<View>(R.id.mess) as TextView
+                        val messageTime = v.findViewById<View>(R.id.date) as TextView
+
+                        // Set their text
+                        messageText.setText(model.getMessageText())
+                        messageUser.setText(model.getMessageUser())
+                        messageTime.setText(model.getMessageTime())
+
+                        // Format the date before showing it
+                        messageTime.setText("")
+                    }
+                }
+
+                chatList.adapter = adapter
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
 
         sendMessage.setOnClickListener{
             Toast.makeText(this, "Here", Toast.LENGTH_SHORT).show()
@@ -136,33 +156,6 @@ class ChatActivity : AppCompatActivity(){
             this.messageTime = messageTime
         }
 
-    }
-
-    class MyAdapter(var data: ArrayList<Message>, var context: Context): BaseAdapter() {
-        override fun getCount(): Int {
-            return data.size
-        }
-
-        override fun getItem(position: Int): Any {
-            return position
-        }
-
-        override fun getItemId(position: Int): Long {
-            return position.toLong()
-        }
-
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
-            if( convertView != null ){
-                val myTextView1 = convertView.findViewById(R.id.user) as TextView
-                myTextView1.setText(getItem(position * 3).toString())
-                val myTextView2 = convertView.findViewById(R.id.mess) as TextView
-                myTextView2.setText(getItem(position * 3 + 1).toString())
-                val myTextView3 = convertView.findViewById(R.id.date) as TextView
-                myTextView3.setText(getItem(position * 3 + 2).toString())
-            }
-
-            return convertView
-        }
     }
 
 }
