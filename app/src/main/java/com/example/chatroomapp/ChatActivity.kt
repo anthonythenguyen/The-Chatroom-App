@@ -65,7 +65,7 @@ class ChatActivity : AppCompatActivity(){
 
         var sendMessage = findViewById<Button>(R.id.fab)
         sendMessage.setOnClickListener{
-            Toast.makeText(this, "Here", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "Here", Toast.LENGTH_SHORT).show()
             val input = findViewById<View>(R.id.messageBox) as EditText
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
             val currentDate = sdf.format(Date())
