@@ -28,51 +28,6 @@
         android:text="send" />
 
 
-    <!--        <ImageView-->
-    <!--            android:layout_width="50dp"-->
-    <!--            android:layout_height="50dp"-->
-    <!--            android:src="@drawable/ic_dashboard_black_24dp" />-->
-
-    <!--        <LinearLayout-->
-    <!--            android:id="@+id/linear"-->
-    <!--            android:layout_width="0dp"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_weight="1"-->
-    <!--            android:orientation="vertical">-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/user"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:textColor="@color/design_default_color_primary_dark"-->
-    <!--                android:textStyle="bold"-->
-    <!--                android:textSize="18sp"-->
-    <!--                android:text="Username" />-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/mess"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:textColor="@color/black"-->
-    <!--                android:textSize="16sp"-->
-    <!--                android:text="Message" />-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/date"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:text="Date and time" />-->
-
-    <!--            <include layout="@layout/content_chat" />-->
-
-
-    <!--&lt;!&ndash;                        <View&ndash;&gt;-->
-    <!--&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
-    <!--&lt;!&ndash;                android:layout_height="1dp"&ndash;&gt;-->
-    <!--&lt;!&ndash;                android:background="@color/black" />&ndash;&gt;-->
-
-    <!--        </LinearLayout>-->
-
     <EditText
         android:id="@+id/messageBox"
         android:layout_width="337dp"
@@ -82,17 +37,13 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:cursorVisible="true"
-        android:hint="Enter your message here"
-        android:text=""/>
+        android:layout_margin="10dp"
+        android:hint="Enter your message here"/>
 
-    <!--    <androidx.recyclerview.widget.RecyclerView-->
-    <!--        android:id="@+id/chatList"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="632dp"-->
-    <!--        android:layout_marginTop="55dp" />-->
     <ListView
         android:id="@+id/chatList"
         android:layout_width="match_parent"
+        android:stackFromBottom="true"
         android:layout_height="577dp"
-        android:layout_marginTop="55dp"></ListView>
+        android:layout_marginTop="55dp" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
