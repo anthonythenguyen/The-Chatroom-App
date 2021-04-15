@@ -66,7 +66,7 @@ class ChatActivity : AppCompatActivity(){
             .orderByKey()
 
         var options = FirebaseListOptions.Builder<Message>()
-            .setLayout(R.layout.activity_chat) //Note: The guide doesn't mention this method, without it an exception is thrown that the layout has to be set.
+            .setLayout(R.layout.message) //Note: The guide doesn't mention this method, without it an exception is thrown that the layout has to be set.
             .setQuery(query, Message::class.java)
             .build()
 

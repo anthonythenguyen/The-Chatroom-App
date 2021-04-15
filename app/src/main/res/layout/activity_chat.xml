@@ -33,45 +33,45 @@
 <!--            android:layout_height="50dp"-->
 <!--            android:src="@drawable/ic_dashboard_black_24dp" />-->
 
-        <LinearLayout
-            android:id="@+id/linear"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+<!--        <LinearLayout-->
+<!--            android:id="@+id/linear"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:orientation="vertical">-->
 
-            <TextView
-                android:id="@+id/user"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/design_default_color_primary_dark"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:text="Username" />
+<!--            <TextView-->
+<!--                android:id="@+id/user"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textColor="@color/design_default_color_primary_dark"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textSize="18sp"-->
+<!--                android:text="Username" />-->
 
-            <TextView
-                android:id="@+id/mess"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:text="Message" />
+<!--            <TextView-->
+<!--                android:id="@+id/mess"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="16sp"-->
+<!--                android:text="Message" />-->
 
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Date and time" />
+<!--            <TextView-->
+<!--                android:id="@+id/date"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Date and time" />-->
 
-            <include layout="@layout/content_chat" />
+<!--            <include layout="@layout/content_chat" />-->
 
 
-<!--                        <View-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:background="@color/black" />-->
+<!--&lt;!&ndash;                        <View&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_height="1dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:background="@color/black" />&ndash;&gt;-->
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
     <EditText
         android:id="@+id/messageBox"
