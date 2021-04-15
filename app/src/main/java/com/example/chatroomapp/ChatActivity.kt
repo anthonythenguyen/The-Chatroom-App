@@ -44,30 +44,30 @@ class ChatActivity : AppCompatActivity(){
         user = intent.getStringExtra("user")!!
         otherUser = intent.getStringExtra("other")!!
 
-        database.child(user).child("conversations").addValueEventListener(object :
-            ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var snap = dataSnapshot.children
-                for (i in snap) {
-                    val data: String? = i.key
-                    print("1st")
-                    if (data != null && data == otherUser) {
-                        var messageNum = 0
-                        for (j in i.children) {
-                            print("2nd")
-                            if (j.key != null && j.key != "messageNum") {
-                                var m = Message(
-                                    j.child("username").value.toString(),
-                                    j.child("message").value.toString(),
-                                    j.child("time").value.toString()
-                                )
-                                arrChat.add(m)
-                            } else {
-//                                messageNum = j.value as Int
-                            }
-                        }
-                    }
-                }
+//        database.child(user).child("conversations").addValueEventListener(object :
+//            ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                var snap = dataSnapshot.children
+//                for (i in snap) {
+//                    val data: String? = i.key
+//                    print("1st")
+//                    if (data != null && data == otherUser) {
+//                        var messageNum = 0
+//                        for (j in i.children) {
+//                            print("2nd")
+//                            if (j.key != null && j.key != "messageNum") {
+//                                var m = Message(
+//                                    j.child("username").value.toString(),
+//                                    j.child("message").value.toString(),
+//                                    j.child("time").value.toString()
+//                                )
+//                                arrChat.add(m)
+//                            } else {
+////                                messageNum = j.value as Int
+//                            }
+//                        }
+//                    }
+//                }
 
                 var chatList = findViewById(R.id.chatList) as ListView
 
@@ -91,21 +91,17 @@ class ChatActivity : AppCompatActivity(){
                         messageText.setText(model.getMessageText())
                         messageUser.setText(model.getMessageUser())
                         messageTime.setText(model.getMessageTime())
-
-                        // Format the date before showing it
-                        messageTime.setText("")
                     }
                 }
 
                 chatList.adapter = adapter
-            }
+//            }
 
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
+//            override fun onCancelled(databaseError: DatabaseError) {}
+//        })
 
         sendMessage.setOnClickListener{
             Toast.makeText(this, "Here", Toast.LENGTH_SHORT).show()
-
         }
 
     }
