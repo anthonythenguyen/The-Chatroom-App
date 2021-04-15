@@ -35,6 +35,38 @@ class ChatActivity : AppCompatActivity(){
 //            Toast.makeText(this, "Here", Toast.LENGTH_SHORT).show()
         }
 
+        user = intent.getStringExtra("user")!!
+        otherUser = intent.getStringExtra("other")!!
+        var chatList = findViewById(R.id.chatList) as ListView
+
+        var query: Query = FirebaseDatabase.getInstance()
+            .getReference("users/$user/conversations/$otherUser")
+            .orderByKey()
+
+        var options = FirebaseListOptions.Builder<Message>()
+            .setLayout(R.layout.message) //Note: The guide doesn't mention this method, without it an exception is thrown that the layout has to be set.
+            .setQuery(query, Message::class.java)
+            .build()
+
+        var adapter: FirebaseListAdapter<*> = object : FirebaseListAdapter<Message>(options) {
+            override fun populateView(v: View, model: Message, position: Int) {
+                // Get references to the views of message.xml
+                if(v != null) {
+                    val messageText = v.findViewById<View>(R.id.message_user) as TextView
+                    val messageUser = v.findViewById<View>(R.id.message_text) as TextView
+                    val messageTime = v.findViewById<View>(R.id.message_time) as TextView
+
+                    // Set their text
+                    messageText.setText(model.getMessageText())
+                    messageUser.setText(model.getMessageUser())
+                    messageTime.setText(model.getMessageTime())
+                }
+            }
+        }
+
+        chatList.adapter = adapter
+        adapter.startListening()
+
         var sendMessage = findViewById<Button>(R.id.fab)
         sendMessage.setOnClickListener{
             Toast.makeText(this, "Here", Toast.LENGTH_SHORT).show()
@@ -61,40 +93,6 @@ class ChatActivity : AppCompatActivity(){
 
             input.setText("")
         }
-
-        user = intent.getStringExtra("user")!!
-        otherUser = intent.getStringExtra("other")!!
-        var chatList = findViewById(R.id.chatList) as ListView
-
-        var query: Query = FirebaseDatabase.getInstance()
-            .getReference("users/$user/conversations/$otherUser")
-            .orderByKey()
-
-        var options = FirebaseListOptions.Builder<Message>()
-            .setLayout(R.layout.message) //Note: The guide doesn't mention this method, without it an exception is thrown that the layout has to be set.
-            .setQuery(query, Message::class.java)
-            .build()
-
-        var adapter: FirebaseListAdapter<*> = object : FirebaseListAdapter<Message>(options) {
-            override fun populateView(v: View, model: Message, position: Int) {
-                // Get references to the views of message.xml
-                val messageText = v.findViewById<View>(R.id.message_user) as TextView
-                val messageUser = v.findViewById<View>(R.id.message_text) as TextView
-                val messageTime = v.findViewById<View>(R.id.message_time) as TextView
-
-                // Set their text
-                messageText.setText(model.getMessageText())
-                messageUser.setText(model.getMessageUser())
-                messageTime.setText(model.getMessageTime())
-            }
-        }
-
-        chatList.adapter = adapter
-        adapter.startListening()
-    }
-
-    fun display(){
-
     }
 
     fun message(m: String){
