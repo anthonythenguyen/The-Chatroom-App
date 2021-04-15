@@ -17,9 +17,8 @@ import java.util.*
 
 class ChatActivity : AppCompatActivity(){
     lateinit var auth: FirebaseAuth
-    var database = FirebaseDatabase.getInstance().getReference("users")
-    var user = "thisiszoe"
-    var otherUser = "ajallen10"
+    var user = ""
+    var otherUser = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         auth = FirebaseAuth.getInstance()
@@ -30,9 +29,6 @@ class ChatActivity : AppCompatActivity(){
         val actionBar: ActionBar? = supportActionBar
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true)
-        }
-        else {
-//            Toast.makeText(this, "Here", Toast.LENGTH_SHORT).show()
         }
 
         user = intent.getStringExtra("user")!!
@@ -123,24 +119,12 @@ class ChatActivity : AppCompatActivity(){
             return messageUser;
         }
 
-        fun setMessageUser(messageUser: String) :Unit {
-            this.messageUser = messageUser
-        }
-
         fun getMessageText(): String? {
             return messageText
         }
 
-        fun setMessageText(messageText: String?) {
-            this.messageText = messageText!!
-        }
-
         fun getMessageTime(): String {
             return messageTime
-        }
-
-        fun setMessageTime(messageTime: String) {
-            this.messageTime = messageTime
         }
 
     }
