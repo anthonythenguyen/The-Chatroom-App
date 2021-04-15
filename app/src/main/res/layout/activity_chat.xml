@@ -20,15 +20,13 @@
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <Button
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email"
-         />
+        android:text="send" />
+
 
 <!--        <ImageView-->
 <!--            android:layout_width="50dp"-->
@@ -87,6 +85,11 @@
         android:hint="Enter your message here"
         android:text=""/>
 
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/chatList"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="632dp"-->
+<!--        android:layout_marginTop="55dp" />-->
         <ListView
             android:id="@+id/chatList"
             android:layout_width="match_parent"
