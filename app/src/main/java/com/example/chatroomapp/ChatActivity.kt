@@ -53,8 +53,8 @@ class ChatActivity : AppCompatActivity(){
                     val messageTime = v.findViewById<View>(R.id.message_time) as TextView
 
                     // Set their text
-                    messageText.setText(model.getMessageText())
                     messageUser.setText(model.getMessageUser())
+                    messageText.setText(model.getMessageText())
                     messageTime.setText(model.getMessageTime())
                 }
             }
