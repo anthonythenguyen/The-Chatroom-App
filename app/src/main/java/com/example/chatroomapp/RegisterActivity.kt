@@ -32,7 +32,7 @@ class RegisterActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Toast.makeText(this@RegisterActivity, "Success", Toast.LENGTH_LONG).show()
                     createNewUser(email.text.toString(), auth.currentUser.uid)
-                    val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+                    val intent = Intent(this@RegisterActivity, SignInActivity::class.java)
                     startActivity(intent)
                     finish()
                 } else {
