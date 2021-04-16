@@ -49,16 +49,6 @@
         app:layout_constraintVertical_bias="0.057"
         tools:visibility="visible" />
 
-    <ListView
-        android:id="@+id/blockedList"
-        android:layout_width="335dp"
-        android:layout_height="315dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listOfBlocked"
-        tools:ignore="InvalidId,MissingConstraints" />
-
     <Button
         android:id="@+id/addBtn"
         android:layout_width="wrap_content"
@@ -71,17 +61,16 @@
         app:layout_constraintTop_toBottomOf="@+id/searchBar2"
         app:layout_constraintVertical_bias="0.088" />
 
-    <TextView
-        android:id="@+id/listOfBlocked"
-        android:layout_width="197dp"
-        android:layout_height="36dp"
-        android:text="Users who are blocked:"
-        android:textSize="18sp"
+    <Button
+        android:id="@+id/buttonList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="List of Blocked Users"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.158"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addBtn"
-        app:layout_constraintVertical_bias="0.053"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.755"
         tools:ignore="MissingConstraints" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

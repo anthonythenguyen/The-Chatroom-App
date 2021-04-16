@@ -29,34 +29,12 @@ class BlockedUsersActivity : AppCompatActivity() {
         var searchBar2 = findViewById<EditText>(R.id.searchBar2)
         var searchBtn = findViewById<Button>(R.id.search21)
         var addBtn = findViewById<Button>(R.id.addBtn)
+        var buttonList = findViewById<Button>(R.id.buttonList)
         var result21 = findViewById<TextView>(R.id.result21)
-        var listOfBlocked = findViewById<TextView>(R.id.listOfBlocked)
+
         addBtn.isEnabled = false
 
-        //Need listview to show who is already blocked
 
-        database.child(username).child("blocked").addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var snap = dataSnapshot.children
-                var blockedUsersList = arrayListOf<String>()
-                for (i in snap) {
-                    if(i.value == true) {
-                        blockedUsersList.add(i.key.toString())
-                    }
-                }
-
-                var blockedList = findViewById<ListView>(R.id.blockedList)
-                var listAdapter: ArrayAdapter<String> =
-                    ArrayAdapter(
-                        this@BlockedUsersActivity,
-                        android.R.layout.simple_list_item_1,
-                        blockedUsersList
-                    )
-                blockedList.adapter = listAdapter
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
 
         //Need this to search database for that username and store that username
 
@@ -121,6 +99,31 @@ class BlockedUsersActivity : AppCompatActivity() {
             result21.setText("")
             addBtn.isEnabled = false
 
+        }
+
+
+        buttonList.setOnClickListener {
+            database.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    var snap = dataSnapshot.children
+                    for (i in snap) {
+                        val data: String? = i.key
+                        for (j in i.children) {
+                            if (data != null && j.value == auth.currentUser?.uid) {
+                                username = i.key.toString()
+                                val intent = Intent(
+                                    this@BlockedUsersActivity,
+                                    blockedListActivity::class.java
+                                )
+                                intent.putExtra("username", username)
+                                startActivity(intent)
+                            }
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {}
+            })
         }
 
     }
