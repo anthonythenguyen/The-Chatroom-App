@@ -50,6 +50,7 @@ class RegisterActivity : AppCompatActivity() {
             val username = findViewById<EditText>(R.id.username)
             val user = User(uid, email)
             database.child(username.text.toString()).setValue(user)
+            database.child(username.text.toString()).child("blocked").child(username.text.toString()).setValue(false)
         }
     }
 }

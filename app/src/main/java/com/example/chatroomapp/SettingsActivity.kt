@@ -15,11 +15,13 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 
 class SettingsActivity : AppCompatActivity() {
+    var database = FirebaseDatabase.getInstance().getReference("users")
+    var username = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-
+        var auth = FirebaseAuth.getInstance()
 
         var logout = findViewById<Button>(R.id.logout)
         var blockButton = findViewById<Button>(R.id.blockBtn)
@@ -39,10 +41,27 @@ class SettingsActivity : AppCompatActivity() {
 
 
         blockButton.setOnClickListener {
-            val intent = Intent(this, BlockedUsersActivity::class.java)
-            startActivity(intent)
-        }
+            database.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    var snap = dataSnapshot.children
+                    for (i in snap) {
+                        val data: String? = i.key
+                        for (j in i.children) {
+                            if (data != null && j.value == auth.currentUser?.uid) {
+                                username = i.key.toString()
+                                val intent = Intent(this@SettingsActivity, BlockedUsersActivity::class.java)
+                                intent.putExtra("username", username)
+                                startActivity(intent)
+                            }
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {}
+            })
 
         }
-
     }
+}
+
+

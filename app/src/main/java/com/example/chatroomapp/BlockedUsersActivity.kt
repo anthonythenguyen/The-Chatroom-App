@@ -18,165 +18,110 @@ class BlockedUsersActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     var database = FirebaseDatabase.getInstance().getReference("users")
     var username = ""
+    var userBlock = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_blocked_users)
         auth = FirebaseAuth.getInstance()
+        username = intent.getStringExtra("username")!!
 
         var searchBar2 = findViewById<EditText>(R.id.searchBar2)
-
         var searchBtn = findViewById<Button>(R.id.search21)
-        var blockedList = findViewById<ListView>(R.id.blockedList)
         var addBtn = findViewById<Button>(R.id.addBtn)
-        var removeBtn = findViewById<Button>(R.id.removeBtn)
         var result21 = findViewById<TextView>(R.id.result21)
         var listOfBlocked = findViewById<TextView>(R.id.listOfBlocked)
+        addBtn.isEnabled = false
 
+        //Need listview to show who is already blocked
+
+        database.child(username).child("blocked").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var snap = dataSnapshot.children
+                var blockedUsersList = arrayListOf<String>()
+                for (i in snap) {
+                    if(i.value == true) {
+                        blockedUsersList.add(i.key.toString())
+                    }
+                }
+
+                var blockedList = findViewById<ListView>(R.id.blockedList)
+                var listAdapter: ArrayAdapter<String> =
+                    ArrayAdapter(
+                        this@BlockedUsersActivity,
+                        android.R.layout.simple_list_item_1,
+                        blockedUsersList
+                    )
+                blockedList.adapter = listAdapter
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
 
         //Need this to search database for that username and store that username
 
         searchBtn.setOnClickListener {
-            database.addValueEventListener(object : ValueEventListener {
+            database.child(username).child("blocked").addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     var snap = dataSnapshot.children
+                    var found = false
 
                     for (i in snap) {
                         val data: String? = i.key
                         if (data != null && data == searchBar2.text.toString()) {
+                            found = true
                             result21.setText(data)
                             searchBar2.setText("")
+                            userBlock = data.toString()
 
-                            username = i.key.toString()
+                            if(i.value == false){
+                                addBtn.setText("Block")
+                            }
+                            else{
+                                addBtn.setText("Unblock")
+                            }
+
+                            addBtn.isEnabled = true
                         }
-
-
                     }
 
-                        if (result21.text.toString().equals("")) {
-                            result21.setText("User does not exist")
-                        }
+                    if (!found) {
+                        result21.setText("You don't have any conversations with this user")
                     }
-
-
-
+                }
 
                 override fun onCancelled(databaseError: DatabaseError) {}
             })
         }
 
-
-
-
          //Need this to block the given username
 
-//        addBtn.setOnClickListener{
-//            var ref = database.child(username).child("blocked")
-//            ref.addValueEventListener(object : ValueEventListener {
-//
-//
-//                override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                    var snap = dataSnapshot.children
-//                    for (i in snap) {
-//                        var data: String? = i.key
-//                        if (data != null && data.equals("False")) {
-//
-//
-//                            //Set the data to "True"
-//                            data = "True"
-//                        }
-//                        if(data != null && data == "True"){
-//                            var input = "This user is already blocked"
-//                            Toast.makeText(this@BlockedUsersActivity, input, Toast.LENGTH_SHORT).show()
-//                        }
-//
-//                        }
-//                }
-//
-//                override fun onCancelled(databaseError: DatabaseError) {}
-//            })
-//
-//        }
-//
-//
-//
-//         //Need this to unblock the given username
-//
-//        removeBtn.setOnClickListener{
-//            var ref = database.child(username).child("blocked")
-//            ref.addValueEventListener(object : ValueEventListener {
-//
-//
-//                override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                    var snap = dataSnapshot.children
-//                    for (i in snap) {
-//                        var data: String? = i.key
-//                        if (data != null && data == "False") {
-//
-//                            var input = "This user is already unblocked"
-//                            Toast.makeText(this@BlockedUsersActivity, input, Toast.LENGTH_SHORT).show()
-//                        }
-//
-//                        if (data != null && data == "True") {
-//
-//                            //Set the data to "False"
-//                            data = "False"
-//                        }
-//
-//                    }
-//                }
-//
-//                override fun onCancelled(databaseError: DatabaseError) {}
-//            })
-//
-//        }
-//
+        addBtn.setOnClickListener{
+            var ref = database.child(username).child("blocked")
+            ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    var snap = dataSnapshot.children
+                    for (i in snap) {
+                        val data: String? = i.key
+                        if (data != null && data == userBlock) {
+                            if(i.value == false){
+                                ref.child(userBlock).setValue(true)
+                            }
+                            else {
+                                ref.child(userBlock).setValue(false)
+                            }
+                        }
 
+                    }
+                }
 
-        //Need listview to show who is already blocked
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
 
-//        database.addListenerForSingleValueEvent(object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                var snap = dataSnapshot.children
-//                for (i in snap) {
-//                    val data: String? = i.key
-//                    for (j in i.children) {
-//                        if (data != null && j.value == auth.currentUser?.uid) {
-//                            username = i.key.toString()
-//
-//                            var blockedUsersList = arrayListOf<String>()
-//                            var ref = database.child(username).child("blocked")
-//
-//                            ref.addValueEventListener(object : ValueEventListener {
-//                                override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                                    var snap = dataSnapshot.children
-//                                    for (i in snap) {
-//                                        val data: String? = i.key
-//                                        blockedUsersList.add(data.toString())
-//                                    }
-//
-//                                    var myList = findViewById(R.id.myListView) as ListView
-//                                    var listAdapter: ArrayAdapter<String> =
-//                                            ArrayAdapter(
-//                                                    this@BlockedUsersActivity,
-//                                                    android.R.layout.simple_list_item_1,
-//                                                    blockedUsersList
-//                                            )
-//                                    myList.adapter = listAdapter
-//
-//
-//                                }
-//
-//                                override fun onCancelled(databaseError: DatabaseError) {}
-//                            })
-//                        }
-//                    }
-//                }
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {}
-//        })
+            result21.setText("")
+            addBtn.isEnabled = false
 
+        }
 
     }
 
