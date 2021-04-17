@@ -27,18 +27,26 @@ class RegisterActivity : AppCompatActivity() {
         val create = findViewById<Button>(R.id.createReg)
 
         create.setOnClickListener {
-            auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
-                .addOnCompleteListener(this@RegisterActivity, OnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(this@RegisterActivity, "Success", Toast.LENGTH_LONG).show()
-                    createNewUser(email.text.toString(), auth.currentUser.uid)
-                    val intent = Intent(this@RegisterActivity, SignInActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                } else {
-                    Toast.makeText(this@RegisterActivity, "User creation failed", Toast.LENGTH_LONG).show()
-                }
-            })
+            var emailMatch = android.util.Patterns.EMAIL_ADDRESS.matcher(email.text).matches()
+            var pwMatch = password.text.toString().equals((password.text.toString()))
+            if(emailMatch && pwMatch) {
+                auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
+                        .addOnCompleteListener(this@RegisterActivity, OnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Toast.makeText(this@RegisterActivity, "Success", Toast.LENGTH_LONG).show()
+                                createNewUser(email.text.toString(), auth.currentUser.uid)
+                                val intent = Intent(this@RegisterActivity, SignInActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                Toast.makeText(this@RegisterActivity, "User creation failed", Toast.LENGTH_LONG).show()
+                            }
+                        })
+            }else if(!emailMatch){
+                Toast.makeText(this, "Invalid Email", Toast.LENGTH_SHORT).show()
+            }else if(!pwMatch){
+                Toast.makeText(this,"Password do not match", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
