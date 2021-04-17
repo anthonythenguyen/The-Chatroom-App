@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        database.addListenerForSingleValueEvent(object : ValueEventListener {
+        database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var snap = dataSnapshot.children
                 for (i in snap) {
@@ -101,9 +101,6 @@ class MainActivity : AppCompatActivity() {
         })
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-
             val intent = Intent(this@MainActivity, NewChatActivity::class.java)
             startActivity(intent)
         }
