@@ -31,10 +31,7 @@ class BlockedUsersActivity : AppCompatActivity() {
         var addBtn = findViewById<Button>(R.id.addBtn)
         var buttonList = findViewById<Button>(R.id.buttonList)
         var result21 = findViewById<TextView>(R.id.result21)
-
         addBtn.isEnabled = false
-
-
 
         //Need this to search database for that username and store that username
 
@@ -84,9 +81,11 @@ class BlockedUsersActivity : AppCompatActivity() {
                         if (data != null && data == userBlock) {
                             if(i.value == false){
                                 ref.child(userBlock).setValue(true)
+                                result21.setText("$userBlock is now blocked")
                             }
                             else {
                                 ref.child(userBlock).setValue(false)
+                                result21.setText("$userBlock is no longer blocked")
                             }
                         }
 
@@ -96,9 +95,7 @@ class BlockedUsersActivity : AppCompatActivity() {
                 override fun onCancelled(databaseError: DatabaseError) {}
             })
 
-            result21.setText("")
             addBtn.isEnabled = false
-
         }
 
 
@@ -113,7 +110,7 @@ class BlockedUsersActivity : AppCompatActivity() {
                                 username = i.key.toString()
                                 val intent = Intent(
                                     this@BlockedUsersActivity,
-                                    blockedListActivity::class.java
+                                    BlockedListActivity::class.java
                                 )
                                 intent.putExtra("username", username)
                                 startActivity(intent)

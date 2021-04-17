@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     var database = FirebaseDatabase.getInstance().getReference("users")
     var username = ""
-    private var mTopToolbar: Toolbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,14 +44,32 @@ class MainActivity : AppCompatActivity() {
                             username = i.key.toString()
 
                             var listOfCurrentConvos = arrayListOf<String>()
-                            var ref = database.child(username).child("conversations")
+                            var blockedArray = arrayListOf<String>()
+                            var block = database.child(username).child("blocked")
 
+                            block.addValueEventListener(object : ValueEventListener {
+                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                    var snap = dataSnapshot.children
+                                    for (i in snap) {
+                                        val data: String? = i.key
+                                        if(i.value == true) {
+                                            blockedArray.add(data.toString())
+                                        }
+                                    }
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {}
+                            })
+
+                            var ref = database.child(username).child("conversations")
                             ref.addValueEventListener(object : ValueEventListener {
                                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                                     var snap = dataSnapshot.children
                                     for (i in snap) {
                                         val data: String? = i.key
-                                        listOfCurrentConvos.add(data.toString())
+                                        if(!blockedArray.contains(data.toString())) {
+                                            listOfCurrentConvos.add(data.toString())
+                                        }
                                     }
 
                                     var myList = findViewById(R.id.myListView) as ListView

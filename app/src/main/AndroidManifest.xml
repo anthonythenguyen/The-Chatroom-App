@@ -13,8 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ChatRoomApp">
-        <activity android:name=".blockedListActivity"></activity>
-        <activity android:name=".BlockedUsersActivity" />
+        <activity android:name=".BlockedListActivity"
+            android:label="@string/title_activity_block_list" />
+        <activity android:name=".BlockedUsersActivity"
+            android:label="@string/title_activity_block" />
         <activity
             android:name=".NewChatActivity"
             android:label="@string/title_activity_new" />

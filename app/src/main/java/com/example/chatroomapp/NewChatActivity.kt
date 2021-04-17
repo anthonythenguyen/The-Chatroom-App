@@ -67,7 +67,7 @@ class NewChatActivity : AppCompatActivity() {
                         val data: String? = i.key
                         if (data != null && data == result.text.toString()) {
                             exists = true
-                            result.setText("Conversation with this user already exists")
+                            result.setText("Conversation with this user already exists (user may be blocked)")
                             chat.isEnabled = false
                         }
                     }
