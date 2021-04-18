@@ -25,10 +25,11 @@ class RegisterActivity : AppCompatActivity() {
         val email = findViewById<EditText>(R.id.emailReg)
         val password = findViewById<EditText>(R.id.passwordReg)
         val create = findViewById<Button>(R.id.createReg)
+        val confirm = findViewById<EditText>(R.id.passwordConfirm)
 
         create.setOnClickListener {
             var emailMatch = android.util.Patterns.EMAIL_ADDRESS.matcher(email.text).matches()
-            var pwMatch = password.text.toString().equals((password.text.toString()))
+            var pwMatch = password.text.toString().equals((confirm.text.toString()))
             if(emailMatch && pwMatch) {
                 auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
                         .addOnCompleteListener(this@RegisterActivity, OnCompleteListener { task ->
@@ -39,13 +40,13 @@ class RegisterActivity : AppCompatActivity() {
                                 startActivity(intent)
                                 finish()
                             } else {
-                                Toast.makeText(this@RegisterActivity, "User creation failed", Toast.LENGTH_LONG).show()
+                                Toast.makeText(this@RegisterActivity, "Invalid password", Toast.LENGTH_LONG).show()
                             }
                         })
             }else if(!emailMatch){
                 Toast.makeText(this, "Invalid Email", Toast.LENGTH_SHORT).show()
             }else if(!pwMatch){
-                Toast.makeText(this,"Password do not match", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Passwords do not match", Toast.LENGTH_SHORT).show()
             }
         }
     }
